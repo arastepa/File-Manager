@@ -6,14 +6,15 @@ import readline from 'readline';
 import { pipeline } from 'stream';
 import { createBrotliCompress, createBrotliDecompress } from 'zlib';
 import crypto from 'crypto';
-import { goUp } from './nwd/up';
-import { changeDirectory } from './nwd/changeDir';
+import { goUp } from './nwd/up.js';
+import { changeDirectory } from './nwd/changeDir.js';
 
 const args = process.argv.slice(2);
 const usernameArg = args.find(arg => arg.startsWith('--username='));
 const username = usernameArg ? usernameArg.split('=')[1] : userInfo().username;
 
 let currentDir = os.homedir();
+process.chdir(currentDir);
 console.log(`Welcome to the File Manager, ${username}!`);
 printCurrentDirectory();
 
@@ -24,7 +25,6 @@ const rl = readline.createInterface({
 
 rl.on('line', async (input) => {
   const [command, ...args] = input.trim().split(' ');
-
   try {
     switch (command) {
       case 'up':
@@ -87,7 +87,7 @@ function exitProgram() {
 }
 
 function printCurrentDirectory() {
-  console.log(`You are currently in ${currentDir}`);
+  console.log(`You are currently in ${process.cwd()}`);
 }
 
 function listDirectory() {

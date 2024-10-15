@@ -1,6 +1,11 @@
+import path from 'path';
+
+
 export function goUp() {
-    const parentDir = path.dirname(currentDir);
-    if (parentDir !== currentDir) {
-      currentDir = parentDir;
-    }
+  let currentDir = process.cwd();
+  const parentDir = path.dirname(currentDir);
+  if (parentDir !== currentDir) {
+   process.chdir(parentDir);
   }
+  console.log(`You are now in ${process.cwd()}`);
+}
