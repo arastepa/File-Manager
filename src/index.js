@@ -12,6 +12,9 @@ import {listDirectory} from './nwd/ls.js'
 import { readContnet } from './fileManipulations/cat.js';
 import { createFile } from './fileManipulations/createFile.js';
 import { renameFile } from './fileManipulations/renameFile.js';
+import { copyFile } from './fileManipulations/copy.js';
+import { deleteFile } from './fileManipulations/delete.js';
+import { moveFile } from './fileManipulations/move.js';
 
 const args = process.argv.slice(2);
 const usernameArg = args.find(arg => arg.startsWith('--username='));
@@ -92,4 +95,30 @@ function exitProgram() {
 
 function printCurrentDirectory() {
   console.log(`You are currently in ${process.cwd()}`);
+}
+
+function handleOsCommand(option) {
+  switch (option) {
+    case '--EOL':
+      console.log(JSON.stringify(os.EOL));
+      break;
+    case '--cpus':
+      const cpus = os.cpus();
+      console.log(`Total CPUs: ${cpus.length}`);
+      cpus.forEach((cpu, index) => {
+        console.log(`CPU ${index + 1}: ${cpu.model}, ${cpu.speed / 1000} GHz`);
+      });
+      break;
+    case '--homedir':
+      console.log(os.homedir());
+      break;
+    case '--username':
+      console.log(os.userInfo().username);
+      break;
+    case '--architecture':
+      console.log(process.arch);
+      break;
+    default:
+      console.log('Invalid input');
+  }
 }
